@@ -1,8 +1,7 @@
-use book::chapter5::execute_stuff;
+use book::chapter8::execute_chapter8;
 
 pub mod book;
 
 fn main() {
-    execute_stuff();
+    execute_chapter8();
 }
-
