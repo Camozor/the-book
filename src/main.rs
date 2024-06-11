@@ -1,7 +1,7 @@
-use book::chapter9::execute_chapter9;
+use book::chapter10::execute_chapter10;
 
 pub mod book;
 
 fn main() {
-    execute_chapter9();
+    execute_chapter10();
 }
