@@ -4,6 +4,7 @@ enum IpAddressKind {
     V6,
 }
 
+#[allow(dead_code)]
 #[derive(Debug)]
 struct IpAddress {
     kind: IpAddressKind,
@@ -29,6 +30,7 @@ fn route() {
     println!("{:?}", ip2);
 }
 
+#[allow(dead_code)]
 fn execute_match() {
 
 }
