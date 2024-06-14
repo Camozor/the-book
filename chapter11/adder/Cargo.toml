@@ -1,6 +1,5 @@
-workspace = { members = ["chapter11/adder"] }
 [package]
-name = "the-book"
+name = "adder"
 version = "0.1.0"
 edition = "2021"
 
