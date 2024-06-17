@@ -2,11 +2,18 @@ pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
 
+#[allow(dead_code)]
+fn dont_panic_bro() {
+    panic!("Paniiiiiiiic");
+}
+
+#[allow(dead_code)]
 struct Rectangle<T> {
     length: T,
     height: T,
 }
 
+#[allow(dead_code)]
 impl<T: std::cmp::PartialOrd> Rectangle<T> {
    fn can_hold(&self, other_rectangle: &Rectangle<T>) -> bool {
        self.length >= other_rectangle.length && self.height >= other_rectangle.height
@@ -40,5 +47,11 @@ mod tests {
             height: 142.8,
         };
         assert!(rectangle1.can_hold(&rectangle2));
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_panic() {
+        dont_panic_bro();
     }
 }
