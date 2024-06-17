@@ -7,5 +7,9 @@ name = "adder"
 version = "0.1.0"
 
 [[package]]
+name = "minigrep"
+version = "0.1.0"
+
+[[package]]
 name = "the-book"
 version = "0.1.0"
