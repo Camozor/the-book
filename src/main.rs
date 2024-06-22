@@ -1,7 +1,7 @@
-use book::chapter10_lifetime::execute_lifetime;
+use book::chapter13::execute_chapter13;
 
 pub mod book;
 
 fn main() {
-    execute_lifetime();
+    execute_chapter13();
 }
