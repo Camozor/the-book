@@ -3,7 +3,9 @@ use std::thread;
 pub fn execute_chapter13() {
     // execute_inventory();
     // execute_closure_ownership();
-    execute_closure_thread();
+    // execute_closure_thread();
+    // execute_fake_option();
+    execute_iterator();
 }
 
 #[allow(dead_code)]
@@ -91,4 +93,70 @@ fn execute_closure_thread() {
     thread::spawn(move || println!("From thread: {list:?}"))
         .join()
         .unwrap();
+}
+
+#[allow(dead_code)]
+fn execute_fake_option() {
+    let good = FakeOption::Some(3);
+    let bad: FakeOption<i32> = FakeOption::None;
+
+    println!("{}", good.unwrap_or_else(|| 7));
+    println!("{}", bad.unwrap_or_else(|| 7));
+}
+
+enum FakeOption<T> {
+    None,
+    Some(T),
+}
+
+impl<T> FakeOption<T> {
+    fn unwrap_or_else<F>(self, f: F) -> T
+    where
+        F: FnOnce() -> T,
+    {
+        match self {
+            FakeOption::Some(x) => x,
+            FakeOption::None => f(),
+        }
+    }
+}
+
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+}
+
+#[allow(dead_code)]
+fn execute_fnmut() {
+    let mut slice = [
+        Rectangle {
+            width: 16,
+            height: 56,
+        },
+        Rectangle {
+            width: 3,
+            height: 14,
+        },
+        Rectangle {
+            width: 8,
+            height: 12,
+        },
+    ];
+
+    slice.sort_by_key(|r| r.area());
+}
+
+#[allow(dead_code)]
+fn execute_iterator() {
+    let v = vec![1, 2, 3];
+
+    for (index, element) in v.iter().enumerate() {
+        println!("{} {}", index, element);
+    }
 }
