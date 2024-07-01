@@ -159,4 +159,8 @@ fn execute_iterator() {
     for (index, element) in v.iter().enumerate() {
         println!("{} {}", index, element);
     }
+
+    let other_iter = v.iter().map(|x| x + 4);
+    let plus_4: Vec<i32> = other_iter.collect();
+    println!("{:?}", plus_4);
 }

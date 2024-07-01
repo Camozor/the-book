@@ -7,12 +7,17 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn build(args: &[String]) -> Result<Self, &'static str> {
-        if args.len() < 3 {
-            return Err("Insufficient number of args");
-        }
-        let search_query = args[1].to_string();
-        let file_path = args[2].to_string();
+    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Self, &'static str> {
+        args.next();
+
+        let search_query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a search query"),
+        };
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file path"),
+        };
 
         let ignore_case = env::var("IGNORE_CASE").is_ok();
 
@@ -42,7 +47,6 @@ pub fn run(config: &Config) -> Result<(), Box<dyn Error>> {
 pub fn search<'a>(search_query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
-        .into_iter()
         .filter(|line| line.contains(search_query))
         .collect()
 }
@@ -50,7 +54,6 @@ pub fn search<'a>(search_query: &str, contents: &'a str) -> Vec<&'a str> {
 pub fn search_insensitive<'a>(search_query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
-        .into_iter()
         .filter(|line| line.to_uppercase().contains(&search_query.to_uppercase()))
         .collect()
 }
