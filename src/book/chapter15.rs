@@ -1,4 +1,7 @@
-use std::{ops::Deref, usize};
+use std::{
+    ops::{Deref, DerefMut},
+    usize,
+};
 
 #[allow(dead_code)]
 pub fn execute_chapter15() {
@@ -58,7 +61,14 @@ impl<T> MyBox<T> {
 impl<T> Deref for MyBox<T> {
     type Target = T;
     fn deref(&self) -> &Self::Target {
+        println!("deref called");
         &self.0
+    }
+}
+
+impl<T> Drop for MyBox<T> {
+    fn drop(&mut self) {
+        println!("Drop the MIC");
     }
 }
 
@@ -67,5 +77,50 @@ fn execute_my_box() {
     let x = 5;
     let y = MyBox::new(x);
 
+    println!("assert_eq 1");
     assert_eq!(5, *y);
+    println!("assert_eq 2");
+    assert_eq!(5, *y);
+
+    println!("Dropping y");
+    drop(y);
+    println!("Dropped y");
+
+    // println!("{}", *y); // Borrow of moved value
+}
+
+struct MyMutBox(i32);
+impl MyMutBox {
+    fn new(x: i32) -> Self {
+        Self(x)
+    }
+
+    fn mutate(&mut self, x: i32) {
+        self.0 = x;
+    }
+}
+
+impl DerefMut for MyMutBox {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl Deref for MyMutBox {
+    type Target = i32;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+#[allow(dead_code)]
+fn execute_my_mut_box() {
+    let mut mut_box = MyMutBox::new(7);
+    println!("{}", *mut_box);
+    mut_box.mutate(8);
+    assert_eq!(8, *mut_box);
+    println!("{}", *mut_box);
+
+    *mut_box = 9;
+    println!("{}", *mut_box);
 }
